@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event — Countdown & RSVP</title>
+  <meta name="description" content="Beautiful event landing page with countdown timer, event details and RSVP form built with Tailwind CSS." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config for custom fonts/colors (optional)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f5f7ff',
+              100: '#e6eeff',
+              500: '#5b7dff',
+              700: '#3556d6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* small enhancements (glass effect + subtle animation) */
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+    @keyframes floaty { 0% { transform: translateY(0px);} 50% { transform: translateY(-6px);} 100% { transform: translateY(0px);} }
+    .floaty { animation: floaty 6s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-gray-900 via-slate-900 to-black text-slate-100 antialiased">
+  <!-- Page wrapper -->
+  <header class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-brand-700 flex items-center justify-center shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2" />
+        </svg>
+      </div>
+      <span class="font-semibold text-lg">EventName</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm">
+      <a href="#details" class="hover:underline">Details</a>
+      <a href="#schedule" class="hover:underline">Schedule</a>
+      <a href="#rsvp" class="hover:underline">RSVP</a>
+      <button id="themeToggle" class="ml-2 px-3 py-1 rounded-md glass text-sm">Dark</button>
+    </nav>
+    <button class="md:hidden p-2 rounded-md glass" id="menuBtn" aria-label="Open menu">☰</button>
+  </header>
+
+  <!-- Hero / Countdown -->
+  <main class="max-w-6xl mx-auto px-6">
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-12">
+      <!-- Left: copy + CTA -->
+      <div class="space-y-6">
+        <div class="max-w-xl">
+          <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Join us for <span class="text-brand-500">EventName</span></h1>
+          <p class="mt-4 text-slate-300">An inspiring day of talks, networking and celebration. Save the date and tell us you're coming — limited seats available.</p>
+        </div>
+
+        <!-- Countdown Card -->
+        <div class="mt-6 w-full md:w-auto glass rounded-2xl p-6 shadow-lg backdrop-blur-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="text-xs uppercase text-slate-400">Event starts in</p>
+              <p id="eventDate" class="text-sm text-slate-300">Saturday, September 20, 2025 — 10:00 AM</p>
+            </div>
+            <div class="text-right">
+              <button id="rsvpOpen" class="px-4 py-2 bg-brand-500 hover:bg-brand-700 rounded-md text-white">RSVP</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-4 gap-3 text-center">
+            <div class="p-3 bg-slate-800 rounded-lg">
+              <div id="days" class="text-2xl font-semibold">00</div>
+              <div class="text-xs text-slate-400">Days</div>
+            </div>
+            <div class="p-3 bg-slate-800 rounded-lg">
+              <div id="hours" class="text-2xl font-semibold">00</div>
+              <div class="text-xs text-slate-400">Hours</div>
+            </div>
+            <div class="p-3 bg-slate-800 rounded-lg">
+              <div id="minutes" class="text-2xl font-semibold">00</div>
+              <div class="text-xs text-slate-400">Minutes</div>
+            </div>
+            <div class="p-3 bg-slate-800 rounded-lg">
+              <div id="seconds" class="text-2xl font-semibold">00</div>
+              <div class="text-xs text-slate-400">Seconds</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <a href="#details" class="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-700 hover:bg-slate-800">Event details</a>
+          <a href="#schedule" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-transparent hover:bg-slate-800">View schedule</a>
+        </div>
+      </div>
+
+      <!-- Right: visual / features -->
+      <div class="relative">
+        <div class="rounded-2xl overflow-hidden shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="Event crowd" class="w-full h-80 object-cover floaty" />
+        </div>
+
+        <div class="absolute bottom-6 left-6 glass rounded-xl p-4 shadow-lg w-64">
+          <h3 class="font-semibold">What to expect</h3>
+          <ul class="mt-2 text-sm text-slate-300 space-y-1">
+            <li>• Keynote sessions from industry leaders</li>
+            <li>• Hands-on workshops & community talks</li>
+            <li>• Food, drinks & networking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Details -->
+    <section id="details" class="py-10 border-t border-slate-800">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold">Event details</h2>
+        <p class="mt-3 text-slate-300">Location: Grand Hall, City Center · Time: 10:00 AM — 4:00 PM · Dress code: Smart casual</p>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="glass p-5 rounded-xl">
+            <h4 class="font-semibold">Speakers</h4>
+            <p class="mt-2 text-sm text-slate-300">Curated lineup of industry experts and rising talents.</p>
+          </div>
+          <div class="glass p-5 rounded-xl">
+            <h4 class="font-semibold">Workshops</h4>
+            <p class="mt-2 text-sm text-slate-300">Interactive sessions with limited seats — reserve early.</p>
+          </div>
+          <div class="glass p-5 rounded-xl">
+            <h4 class="font-semibold">Accessibility</h4>
+            <p class="mt-2 text-sm text-slate-300">Venue is wheelchair accessible. Contact us for special requests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schedule (simple timeline) -->
+    <section id="schedule" class="py-10">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-center">Schedule</h2>
+        <ol class="mt-6 space-y-4">
+          <li class="glass p-4 rounded-xl">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="font-semibold">10:00 — Opening</div>
+                <div class="text-sm text-slate-300">Welcome and keynote</div>
+              </div>
+              <div class="text-sm text-slate-400">Main Hall</div>
+            </div>
+          </li>
+          <li class="glass p-4 rounded-xl">
+            <div class="flex justify-between items-center">
+              <div>
+                <div class="font-semibold">11:00 — Workshop A</div>
+                <div class="text-sm text-slate-300">Practical session</div>
+              </div>
+              <div class="text-sm text-slate-400">Room 2</div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- RSVP Form -->
+    <section id="rsvp" class="py-12">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold text-center">RSVP</h2>
+        <p class="mt-2 text-center text-slate-300">Let us know you're coming — we'll save your spot and send a confirmation email.</p>
+
+        <form id="rsvpForm" class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 glass p-6 rounded-xl" aria-label="RSVP form">
+          <label class="flex flex-col">
+            <span class="text-sm text-slate-300">Full name</span>
+            <input required name="name" type="text" class="mt-2 p-3 rounded-md bg-transparent border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Your full name" />
+          </label>
+
+          <label class="flex flex-col">
+            <span class="text-sm text-slate-300">Email</span>
+            <input required name="email" type="email" class="mt-2 p-3 rounded-md bg-transparent border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="you@domain.com" />
+          </label>
+
+          <label class="flex flex-col sm:col-span-2">
+            <span class="text-sm text-slate-300">Will you attend?</span>
+            <select name="attend" required class="mt-2 p-3 rounded-md bg-transparent border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="">Select an option</option>
+              <option value="yes">Yes — I'll be there</option>
+              <option value="maybe">Maybe</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+
+          <label class="flex flex-col sm:col-span-2">
+            <span class="text-sm text-slate-300">Message (optional)</span>
+            <textarea name="message" rows="3" class="mt-2 p-3 rounded-md bg-transparent border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Any dietary needs or requests"></textarea>
+          </label>
+
+          <div class="sm:col-span-2 flex items-center justify-between">
+            <div class="text-sm text-slate-400">We won't share your info.</div>
+            <button type="submit" class="px-4 py-2 bg-brand-500 rounded-md text-white">Submit RSVP</button>
+          </div>
+        </form>
+
+        <p id="rsvpMsg" class="text-center mt-4 text-sm text-green-400 hidden"></p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-sm text-slate-500">
+      © <span id="year"></span> EventName • Built with ♥ using Tailwind
+    </footer>
+  </main>
+
+  <!-- Mobile menu (simple) -->
+  <div id="mobileMenu" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm hidden">
+    <div class="absolute right-4 top-4 bg-slate-900 p-6 rounded-lg w-64">
+      <button id="closeMenu" class="mb-4">Close ✕</button>
+      <nav class="flex flex-col gap-3">
+        <a href="#details" class="hover:underline">Details</a>
+        <a href="#schedule" class="hover:underline">Schedule</a>
+        <a href="#rsvp" class="hover:underline">RSVP</a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    // ====== Countdown logic ======
+    // Set your target event date/time here (ISO format or Date string)
+    const target = new Date('2025-09-20T10:00:00'); // <--- Update this to your real event date/time
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        // optional: show event started state
+        return;
+      }
+      const seconds = Math.floor((diff / 1000) % 60);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ====== Simple RSVP handling (client-side) ======
+    const rsvpForm = document.getElementById('rsvpForm');
+    const rsvpMsg = document.getElementById('rsvpMsg');
+
+    rsvpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = new FormData(rsvpForm);
+      const payload = Object.fromEntries(form.entries());
+
+      // Basic validation
+      if (!payload.name || !payload.email || !payload.attend) {
+        rsvpMsg.textContent = 'Please complete required fields.';
+        rsvpMsg.classList.remove('hidden', 'text-green-400');
+        rsvpMsg.classList.add('text-rose-400');
+        return;
+      }
+
+      // Save locally and show confirmation — replace with API call to your server/email provider
+      const stored = JSON.parse(localStorage.getItem('rsvps') || '[]');
+      stored.push({ ...payload, submittedAt: new Date().toISOString() });
+      localStorage.setItem('rsvps', JSON.stringify(stored));
+
+      rsvpMsg.textContent = `Thanks, ${payload.name}! Your RSVP is recorded.`;
+      rsvpMsg.classList.remove('hidden', 'text-rose-400');
+      rsvpMsg.classList.add('text-green-400');
+      rsvpForm.reset();
+
+      // Optionally, trigger a simple micro-interaction
+      setTimeout(() => { rsvpMsg.classList.add('hidden'); }, 6000);
+    });
+
+    // ====== Modal open for RSVP button ======
+    document.getElementById('rsvpOpen').addEventListener('click', () => {
+      document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    // ====== Mobile menu ======
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+    closeMenu.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+
+    // ====== Theme toggle (simple local) ======
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    function applyTheme(t) {
+      if (t === 'light') {
+        document.body.classList.remove('bg-gradient-to-b','from-gray-900','via-slate-900','to-black');
+        document.body.classList.add('bg-white','text-slate-900');
+        themeToggle.textContent = 'Light';
+      } else {
+        document.body.classList.remove('bg-white','text-slate-900');
+        document.body.classList.add('bg-gradient-to-b','from-gray-900','via-slate-900','to-black');
+        themeToggle.textContent = 'Dark';
+      }
+    }
+    applyTheme(saved);
+    themeToggle.addEventListener('click', () => {
+      const next = (localStorage.getItem('theme') === 'light') ? 'dark' : 'light';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+
+    // set copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
