@@ -1,0 +1,12 @@
+🔥 Just built a modern Event Countdown Landing Page with HTML + Tailwind CSS 🚀
+
+⏳ Live countdown
+📍 Event details & schedule
+📝 RSVP form with validation
+📱 Mobile-friendly + dark mode
+✨ Sleek glassmorphism design
+
+Perfect for conferences, concerts, and launches!
+Would you RSVP on a page like this? 😄
+
+#WebDevelopment #TailwindCSS #JavaScript #FrontendDevelopment #UIDesign #EventTech
